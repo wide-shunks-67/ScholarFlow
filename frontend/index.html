@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScholarFlow — Academic Outreach &amp; Research Workspace</title>
+  <meta name="description" content="100% Client-Side academic outreach workspace. Directory of 7,000+ faculty across premier Indian institutes, cold email studio, 6-week preparation roadmap, and private application pipeline.">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            accent: {
+              50:  '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Light scrollbars */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Sidebar active nav state: indigo left-border accent */
+    .active-nav-item {
+      background: #eef2ff;
+      color: #4f46e5;
+      border-left: 3px solid #4f46e5;
+    }
+    .active-nav-item svg {
+      color: #4f46e5;
+    }
+
+    /* Card base */
+    .sf-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+
+    /* Gentle floating badge animation */
+    @keyframes gentle-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes gentle-float-reverse {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(6px); }
+    }
+    .animate-float {
+      animation: gentle-float 6s ease-in-out infinite;
+    }
+    .animate-float-delayed {
+      animation: gentle-float-reverse 7s ease-in-out infinite;
+    }
+
+    /* Template radio card selected */
+    input[type="radio"]:checked + div .template-label {
+      color: #4f46e5;
+    }
+
+    /* Checkbox accent */
+    input[type="checkbox"] {
+      accent-color: #4f46e5;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    /* Focus-visible ring system */
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #4f46e5;
+      outline-offset: 2px;
+    }
+
+    /* Route view visibility guarantee */
+    #view-landing.hidden,
+    #view-app.hidden {
+      display: none !important;
+    }
+
+    /* Sidebar mobile/desktop responsive guarantee */
+    @media (max-width: 1023px) {
+      #sidebar.hidden {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      #sidebar,
+      #sidebar.hidden {
+        display: flex !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-full font-sans text-slate-800 bg-slate-50 selection:bg-accent-200 selection:text-accent-700">
+
+  <!-- ============================================================== -->
+  <!-- 1. LANDING PAGE VIEW (Route: /)                                -->
+  <!-- ============================================================== -->
+  <div id="view-landing" class="min-h-screen flex flex-col bg-slate-50">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        <!-- Brand Link (Always goes to landing home) -->
+        <a href="#/" onclick="navigateTo('#/'); return false;" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-accent-600 flex items-center justify-center shrink-0 shadow-sm group-hover:bg-accent-700 transition-colors" aria-hidden="true">
+            <i data-lucide="compass" class="w-4.5 h-4.5 text-white"></i>
+          </div>
+          <div>
+            <span class="text-base font-bold tracking-tight text-slate-900 group-hover:text-accent-600 transition-colors">Scholar<span class="text-accent-600">Flow</span></span>
+            <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] font-mono font-semibold bg-accent-50 text-accent-700 border border-accent-200 rounded">Academic Outreach</span>
+          </div>
+        </a>
+
+        <!-- Middle Section Links (Desktop) -->
+        <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600" aria-label="Landing page sections">
+          <a href="#start-here" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Start Here</a>
+          <a href="#workflow-preview" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Preview</a>
+          <a href="#who-its-for" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Who It's For</a>
+          <button onclick="navigateTo('#/app?tab=directory')" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Directory</button>
+          <button onclick="navigateTo('#/app?tab=studio')" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Studio</button>
+          <button onclick="navigateTo('#/app?tab=roadmap')" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Roadmap</button>
+          <button onclick="navigateTo('#/app?tab=tracker')" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Pipeline</button>
+          <a href="#privacy" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">Privacy</a>
+        </nav>
+
+        <!-- Right Action Button & Mobile Menu Toggle -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button onclick="navigateTo('#/app')" class="px-2.5 sm:px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+            <span><span class="hidden sm:inline">Open </span>Workspace</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5" aria-hidden="true"></i>
+          </button>
+          
+          <button onclick="toggleMobileLandingMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors shrink-0" aria-label="Toggle navigation links" id="landing-mobile-menu-btn">
+            <i data-lucide="menu" class="w-5 h-5" id="landing-mobile-menu-icon" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Dropdown Navigation Menu -->
+      <div id="landing-mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-1 text-xs font-semibold text-slate-700">
+        <a href="#start-here" onclick="toggleMobileLandingMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors">Start Here (First-Use Path)</a>
+        <a href="#workflow-preview" onclick="toggleMobileLandingMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors">Workflow Preview</a>
+        <a href="#who-its-for" onclick="toggleMobileLandingMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors">Who It's For</a>
+        <a href="#how-it-works" onclick="toggleMobileLandingMenu()" class="block px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors">4-Step Workflow</a>
+        <div class="pt-2 border-t border-slate-100 space-y-1">
+          <button onclick="toggleMobileLandingMenu(); navigateTo('#/app?tab=directory');" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-accent-700 font-semibold flex items-center justify-between">
+            <span>Faculty Directory (7,055)</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-accent-500"></i>
+          </button>
+          <button onclick="toggleMobileLandingMenu(); navigateTo('#/app?tab=studio');" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-accent-700 font-semibold flex items-center justify-between">
+            <span>Email Studio</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-accent-500"></i>
+          </button>
+          <button onclick="toggleMobileLandingMenu(); navigateTo('#/app?tab=roadmap');" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-accent-700 font-semibold flex items-center justify-between">
+            <span>6-Week Roadmap</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-accent-500"></i>
+          </button>
+          <button onclick="toggleMobileLandingMenu(); navigateTo('#/app?tab=tracker');" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-accent-700 font-semibold flex items-center justify-between">
+            <span>Pipeline Tracker</span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-accent-500"></i>
+          </button>
+        </div>
+        <div class="pt-2 border-t border-slate-100">
+          <a href="#privacy" onclick="toggleMobileLandingMenu()" class="block px-3 py-2 text-slate-500 hover:text-slate-800">Data &amp; Privacy Details</a>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- Main Landing Content -->
+    <main class="flex-1">
+
+      <!-- Hero Section -->
+      <section class="relative pt-12 pb-16 sm:pt-20 sm:pb-24 overflow-hidden border-b border-slate-200 bg-gradient-to-b from-white via-slate-50 to-slate-50">
+        
+        <!-- Subtle decorative backdrop grid lines -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40 pointer-events-none" aria-hidden="true"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div class="text-center max-w-3xl mx-auto space-y-5">
+            
+            <!-- Academic Pill Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-50 border border-accent-200 text-xs font-semibold text-accent-700">
+              <span class="w-2 h-2 rounded-full bg-accent-600"></span>
+              <span>7,055 Faculty Across 71 Premier Indian Institutes</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.15]">
+              Find research mentors. <br class="hidden sm:inline" />
+              <span class="text-accent-600">Reach out with confidence.</span>
+            </h1>
+
+            <!-- Supporting description -->
+            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              ScholarFlow helps students explore faculty research areas, prepare structured outreach emails, follow a 6-week preparation roadmap, and track outreach in one client-side workspace.
+            </p>
+
+            <!-- Dual Primary CTAs & Verification-backed Privacy Note -->
+            <div class="space-y-3 pt-2">
+              <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button onclick="navigateTo('#/app')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-accent-500">
+                  <i data-lucide="layout-dashboard" class="w-4 h-4" aria-hidden="true"></i>
+                  <span>Open Workspace</span>
+                </button>
+
+                <button onclick="navigateTo('#/app?tab=directory')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 hover:text-slate-900 font-semibold text-sm flex items-center justify-center gap-2 transition-colors shadow-sm focus-visible:ring-2 focus-visible:ring-accent-500">
+                  <i data-lucide="search" class="w-4 h-4 text-slate-500" aria-hidden="true"></i>
+                  <span>Explore Faculty Directory</span>
+                </button>
+              </div>
+
+              <!-- Verified Privacy Note -->
+              <p class="text-[11px] text-slate-500 flex items-center justify-center gap-1.5 max-w-lg mx-auto">
+                <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400 shrink-0" aria-hidden="true"></i>
+                <span>Your profile and application tracker remain saved in your browser's localStorage. No data is sent to external servers.</span>
+              </p>
+            </div>
+
+            <!-- Quick Trust Proof Points -->
+            <div class="pt-2 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-slate-500 font-medium">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-accent-600" aria-hidden="true"></i>
+                IITs, NITs, IIITs, IISc &amp; Central Universities
+              </span>
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-accent-600" aria-hidden="true"></i>
+                100% Client-Side In Browser
+              </span>
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-accent-600" aria-hidden="true"></i>
+                Zero Sign-Up Required
+              </span>
+            </div>
+
+          </div>
+
+          <!-- Product Preview with tasteful floating contextual cards -->
+          <div class="mt-12 sm:mt-16 relative max-w-5xl mx-auto">
+            
+            <!-- Floating element 1: Left Card (Faculty Snippet) -->
+            <div class="hidden lg:block absolute -left-10 top-16 z-20 w-64 p-3.5 rounded-xl bg-white border border-slate-200 shadow-xl animate-float pointer-events-none">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-7 h-7 rounded-lg bg-accent-100 text-accent-700 flex items-center justify-center text-xs font-bold">IIT</div>
+                <div class="min-w-0">
+                  <p class="text-xs font-bold text-slate-900 truncate">Prof. Narendra S. Chaudhari</p>
+                  <p class="text-[10px] text-slate-500">IIT Indore • Computer Science</p>
+                </div>
+              </div>
+              <span class="inline-block px-2 py-0.5 rounded text-[10px] bg-slate-100 text-slate-700 font-medium truncate max-w-full">
+                Graph Neural Networks &amp; Algorithms
+              </span>
+            </div>
+
+            <!-- Floating element 2: Right Card (Pipeline Snippet) -->
+            <div class="hidden lg:block absolute -right-8 bottom-12 z-20 w-60 p-3.5 rounded-xl bg-white border border-slate-200 shadow-xl animate-float-delayed pointer-events-none">
+              <div class="flex items-center justify-between text-[11px] font-semibold text-slate-700 mb-2">
+                <span>Application Pipeline</span>
+                <span class="px-2 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-blue-700 border border-blue-200">Applied</span>
+              </div>
+              <p class="text-xs font-semibold text-slate-900 truncate">Outreach Sent: Dec 2026 Stay</p>
+              <p class="text-[10px] text-slate-500 font-mono mt-1">Follow-up due: in 7 days</p>
+            </div>
+
+            <!-- Main App Window Mockup (Accurately showcasing real ScholarFlow UI) -->
+            <div class="rounded-2xl border border-slate-300 bg-white shadow-2xl overflow-hidden ring-1 ring-slate-900/5">
+              
+              <!-- Window top bar -->
+              <div class="bg-slate-100 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-slate-300"></span>
+                  <span class="w-3 h-3 rounded-full bg-slate-300"></span>
+                  <span class="w-3 h-3 rounded-full bg-slate-300"></span>
+                  <span class="text-xs font-mono text-slate-500 ml-2">scholarflow.app/workspace</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[11px] font-semibold text-slate-600 bg-white px-2.5 py-0.5 rounded border border-slate-200">
+                    Live Preview
+                  </span>
+                </div>
+              </div>
+
+              <!-- Window body preview -->
+              <div class="p-4 sm:p-6 bg-slate-50 grid grid-cols-1 md:grid-cols-12 gap-4 text-left">
+                
+                <!-- Mock Sidebar Mini -->
+                <div class="hidden md:block md:col-span-3 bg-white p-3 rounded-xl border border-slate-200 space-y-2">
+                  <div class="flex items-center gap-2 p-2 rounded-lg bg-accent-50 text-accent-700 text-xs font-semibold border-l-2 border-accent-600">
+                    <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                    <span>Faculty Directory</span>
+                  </div>
+                  <div class="flex items-center gap-2 p-2 text-slate-500 text-xs font-medium">
+                    <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                    <span>Email Studio</span>
+                  </div>
+                  <div class="flex items-center gap-2 p-2 text-slate-500 text-xs font-medium">
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i>
+                    <span>6-Week Roadmap</span>
+                  </div>
+                  <div class="flex items-center gap-2 p-2 text-slate-500 text-xs font-medium">
+                    <i data-lucide="kanban" class="w-3.5 h-3.5"></i>
+                    <span>Pipeline Tracker</span>
+                  </div>
+                </div>
+
+                <!-- Mock Main Content Area -->
+                <div class="md:col-span-9 space-y-3">
+                  
+                  <!-- Filter Bar Preview -->
+                  <div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 text-xs text-slate-400">
+                      <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                      <span class="text-slate-600 font-medium">Search "Robotics", "Deep Learning", "Fluid Dynamics"…</span>
+                    </div>
+                    <span class="text-[11px] font-mono font-bold text-accent-600 bg-accent-50 px-2 py-0.5 rounded border border-accent-200">
+                      7,055 Mentors
+                    </span>
+                  </div>
+
+                  <!-- 2 Sample Faculty Cards -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2 shadow-xs">
+                      <div class="flex items-center justify-between">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600">NIT Arunachal Pradesh</span>
+                        <span class="text-[10px] text-accent-600 font-semibold">Available</span>
+                      </div>
+                      <h4 class="text-xs font-bold text-slate-900">Prof. Mohan Vithalrao Aware</h4>
+                      <p class="text-[11px] text-slate-500 line-clamp-1">Electrical Engineering • Current Loop, Induction Motor</p>
+                      <div class="pt-2 flex items-center gap-1.5">
+                        <button onclick="navigateTo('#/app?tab=studio')" class="flex-1 py-1 px-2 rounded bg-accent-50 text-accent-700 text-[10px] font-semibold text-center border border-accent-200 hover:bg-accent-100">
+                          Draft Email
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200 space-y-2 shadow-xs">
+                      <div class="flex items-center justify-between">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600">IIT Bombay</span>
+                        <span class="px-1.5 py-0.5 rounded text-[9px] font-semibold bg-blue-50 text-blue-600 border border-blue-200">Tracked</span>
+                      </div>
+                      <h4 class="text-xs font-bold text-slate-900">Prof. Preeti Aghalayam</h4>
+                      <p class="text-[11px] text-slate-500 line-clamp-1">Chemical Engineering • Microreactors, Reaction Kinetics</p>
+                      <div class="pt-2 flex items-center gap-1.5">
+                        <button onclick="navigateTo('#/app?tab=studio')" class="flex-1 py-1 px-2 rounded bg-accent-50 text-accent-700 text-[10px] font-semibold text-center border border-accent-200 hover:bg-accent-100">
+                          Draft Email
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 1. CLEAR FIRST-USE PATH ("Start Here")     -->
+      <!-- ========================================== -->
+      <section id="start-here" class="py-12 sm:py-16 border-b border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase text-accent-700 bg-accent-50 border border-accent-200">
+                First-Use Guide
+              </span>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-2">
+                Start here: 3 steps to your first email
+              </h2>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                New to ScholarFlow? Here is the suggested path through the workspace.
+              </p>
+            </div>
+            <button onclick="navigateTo('#/app')" class="self-start text-xs font-semibold text-accent-600 hover:text-accent-700 flex items-center gap-1 group">
+              <span>Go to workspace</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+            <!-- Step 1 Card -->
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-accent-200 hover:shadow-sm transition-all flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold font-mono">1</span>
+                  <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Step 01</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900">Explore Faculty Research Areas</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Search 7,055 mentors across 71 premier Indian engineering institutes. Filter by institution, department, or keyword (e.g., Robotics, VLSI, Bio).
+                </p>
+              </div>
+              <button onclick="navigateTo('#/app?tab=directory')" class="w-full py-2 px-3 rounded-lg bg-white border border-slate-300 hover:bg-accent-50 hover:border-accent-300 text-slate-700 hover:text-accent-700 text-xs font-semibold text-center transition-colors">
+                Open Faculty Directory →
+              </button>
+            </div>
+
+            <!-- Step 2 Card -->
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-accent-200 hover:shadow-sm transition-all flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold font-mono">2</span>
+                  <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Step 02</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900">Add Your Project Details</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Enter your institute, degree year, GitHub repository or project link, and a 2-line technical summary of your recent implementation.
+                </p>
+              </div>
+              <button onclick="navigateTo('#/app?tab=studio')" class="w-full py-2 px-3 rounded-lg bg-white border border-slate-300 hover:bg-accent-50 hover:border-accent-300 text-slate-700 hover:text-accent-700 text-xs font-semibold text-center transition-colors">
+                Open Student Profile in Studio →
+              </button>
+            </div>
+
+            <!-- Step 3 Card -->
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-accent-200 hover:shadow-sm transition-all flex flex-col justify-between space-y-4">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="w-6 h-6 rounded-full bg-accent-600 text-white flex items-center justify-center text-xs font-bold font-mono">3</span>
+                  <span class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Step 03</span>
+                </div>
+                <h3 class="text-sm font-bold text-slate-900">Draft &amp; Review Your Email</h3>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Choose a template or draft mode. Check keyword-alignment feedback, verify the word count (&lt;180 words), and open in your native mail client.
+                </p>
+              </div>
+              <button onclick="navigateTo('#/app?tab=studio')" class="w-full py-2 px-3 rounded-lg bg-white border border-slate-300 hover:bg-accent-50 hover:border-accent-300 text-slate-700 hover:text-accent-700 text-xs font-semibold text-center transition-colors">
+                Draft an Email →
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 2. WORKFLOW PREVIEW (Listing to Email Draft)-->
+      <!-- ========================================== -->
+      <section id="workflow-preview" class="py-12 sm:py-16 border-b border-slate-200 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase text-slate-600 bg-slate-200/70 border border-slate-300">
+              Interactive Preview
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-2">
+              From directory selection to editable draft
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Sample illustrative workflow: selecting any professor automatically populates the email recipient and lab context.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            
+            <!-- Left: Illustrative Faculty Card -->
+            <div class="lg:col-span-5 space-y-2">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                1. Illustrative Faculty Card (Directory)
+              </span>
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                    NIT Trichy • Electrical
+                  </span>
+                  <span class="text-[10px] font-mono text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    Sample Record
+                  </span>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">Dr. Sample Faculty Name</h4>
+                  <p class="text-xs text-slate-500">Department of Electrical &amp; Electronics Engineering</p>
+                </div>
+                <div>
+                  <span class="text-[10px] uppercase font-bold text-slate-400">Listed Research Area</span>
+                  <p class="text-xs text-slate-700 mt-0.5 leading-relaxed">
+                    Power Electronics, Grid Integration of Renewable Energy, Electric Vehicle Charging Topologies
+                  </p>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 font-mono">
+                  <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400"></i>
+                  <span class="truncate">faculty.sample@institute.ac.in</span>
+                </div>
+                <button onclick="navigateTo('#/app?tab=studio')" class="w-full py-2 rounded-lg bg-accent-50 hover:bg-accent-100 border border-accent-200 text-accent-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors">
+                  <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                  <span>Click "Draft Email" →</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Flow Arrow in middle -->
+            <div class="hidden lg:flex lg:col-span-1 items-center justify-center">
+              <div class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-xs text-accent-600">
+                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <!-- Right: Resulting Email Draft Preview -->
+            <div class="lg:col-span-6 space-y-2">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                2. Resulting Editable Draft (Email Studio)
+              </span>
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3 font-mono text-xs">
+                <div class="flex items-center justify-between pb-2 border-b border-slate-100 text-[11px] font-sans">
+                  <span class="font-semibold text-slate-700">Subject: Winter research inquiry — Power Electronics, Dec–Jan</span>
+                  <span class="text-slate-400 font-mono">118 words</span>
+                </div>
+                <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 text-slate-700 leading-relaxed whitespace-pre-wrap text-[11px]">Dear Professor [Surname],
+
+I’m [Student Name], a 3rd Year B.Tech student in Electrical Engineering at [College]. I’m writing to ask whether you might consider taking on a student researcher in your group from Dec 1 – Jan 15.
+
+Your research focus in Power Electronics aligns with my recent project on bidirectional converter simulation using MATLAB/Simulink. You can inspect my code and documentation here: [GitHub URL].
+
+During a winter stay, I could assist with baseline circuit modeling or experimental evaluation, while learning from your lab's work.
+
+Would you be open to a brief discussion? If helpful, I would be glad to share my CV.
+
+Best regards,
+[Student Name]</div>
+                <div class="flex items-center justify-between pt-1 font-sans text-xs">
+                  <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                    <i data-lucide="check" class="w-3.5 h-3.5 text-accent-600"></i>
+                    Editable in browser
+                  </span>
+                  <button onclick="navigateTo('#/app?tab=studio')" class="text-xs font-semibold text-accent-600 hover:underline">
+                    Try in Email Studio →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- 3. WHO IT'S FOR                            -->
+      <!-- ========================================== -->
+      <section id="who-its-for" class="py-12 sm:py-16 border-b border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase text-slate-600 bg-slate-100 border border-slate-200">
+              Audience &amp; Fit
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-2">
+              Who ScholarFlow is built for
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1">
+              Realistic, targeted assistance for undergraduate and postgraduate students reaching out to academic research labs.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3">
+              <div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold" aria-hidden="true">
+                <i data-lucide="graduation-cap" class="w-4.5 h-4.5"></i>
+              </div>
+              <h3 class="text-sm font-bold text-slate-900">Internship Applicants</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Students preparing for winter or summer research internships who need an organized way to find relevant faculty by topic rather than scrolling through endless university department directories.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3">
+              <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold" aria-hidden="true">
+                <i data-lucide="file-check" class="w-4.5 h-4.5"></i>
+              </div>
+              <h3 class="text-sm font-bold text-slate-900">First-Time Cold Outreach</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Students wanting to avoid generic flattery or overly long emails. ScholarFlow provides concise (&lt;180 words) structures that highlight reproducible work and concrete contributions.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3">
+              <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold" aria-hidden="true">
+                <i data-lucide="list-checks" class="w-4.5 h-4.5"></i>
+              </div>
+              <h3 class="text-sm font-bold text-slate-900">Methodical Planners</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Students who want to prepare code baselines over a 6-week schedule, record sent inquiries, and manage a respectful 7-day follow-up cadence without spreadsheet chaos.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="mt-8 p-4 rounded-xl bg-slate-100/80 border border-slate-200 text-xs text-slate-600 flex items-start gap-2.5 max-w-3xl mx-auto">
+            <i data-lucide="info" class="w-4 h-4 text-slate-500 shrink-0 mt-0.5" aria-hidden="true"></i>
+            <p class="leading-relaxed">
+              <strong>Honest expectations:</strong> ScholarFlow provides tools to structure your search and compose polite emails. Response rates depend entirely on faculty capacity, funding, and your technical match; using ScholarFlow does not guarantee an interview, response, or internship offer.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 4 Core Steps Section -->
+      <section id="how-it-works" class="py-16 sm:py-20 border-b border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16">
+            <span class="px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase text-accent-600 bg-accent-50 border border-accent-200">
+              The Research Outreach Workflow
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Four steps from cold search to confirmed stay
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600">
+              Academic outreach fails when emails are generic, unscheduled, and untracked. ScholarFlow structures the entire lifecycle into an organized pipeline.
+            </p>
+          </div>
+
+          <!-- 4 Pillars Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Step 1: Directory -->
+            <div class="sf-card p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="w-10 h-10 rounded-xl bg-accent-50 border border-accent-200 flex items-center justify-center text-accent-600 font-bold" aria-hidden="true">
+                  <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1.5">
+                  <span class="text-[11px] font-mono font-bold text-accent-600 uppercase tracking-wider">Step 01</span>
+                  <h3 class="text-base font-bold text-slate-900">Find Research Mentors</h3>
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    Search over 7,000 faculty records across 71 premier institutes by department, lab topics, or specific keywords like Graph Neural Networks or Microfluidics.
+                  </p>
+                </div>
+              </div>
+              <div class="pt-5 mt-4 border-t border-slate-100">
+                <button onclick="navigateTo('#/app?tab=directory')" class="text-xs font-semibold text-accent-600 hover:text-accent-700 flex items-center gap-1">
+                  <span>Browse Directory</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Email Studio -->
+            <div class="sf-card p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600 font-bold" aria-hidden="true">
+                  <i data-lucide="mail" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1.5">
+                  <span class="text-[11px] font-mono font-bold text-indigo-600 uppercase tracking-wider">Step 02</span>
+                  <h3 class="text-base font-bold text-slate-900">Draft Targeted Outreach</h3>
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    Generate concise outreach drafts based on your entered project details and the professor's listed research area. Includes heuristic keyword-alignment feedback.
+                  </p>
+                </div>
+              </div>
+              <div class="pt-5 mt-4 border-t border-slate-100">
+                <button onclick="navigateTo('#/app?tab=studio')" class="text-xs font-semibold text-accent-600 hover:text-accent-700 flex items-center gap-1">
+                  <span>Open Email Studio</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3: Roadmap -->
+            <div class="sf-card p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 font-bold" aria-hidden="true">
+                  <i data-lucide="map" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1.5">
+                  <span class="text-[11px] font-mono font-bold text-emerald-600 uppercase tracking-wider">Step 03</span>
+                  <h3 class="text-base font-bold text-slate-900">Follow 6-Week Roadmap</h3>
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    A systematic guide through domain selection, baseline reproduction, GitHub report preparation, cold outreach waves, and interview practice.
+                  </p>
+                </div>
+              </div>
+              <div class="pt-5 mt-4 border-t border-slate-100">
+                <button onclick="navigateTo('#/app?tab=roadmap')" class="text-xs font-semibold text-accent-600 hover:text-accent-700 flex items-center gap-1">
+                  <span>View 6-Week Plan</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 4: Pipeline -->
+            <div class="sf-card p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div class="space-y-4">
+                <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 font-bold" aria-hidden="true">
+                  <i data-lucide="kanban" class="w-5 h-5"></i>
+                </div>
+                <div class="space-y-1.5">
+                  <span class="text-[11px] font-mono font-bold text-blue-600 uppercase tracking-wider">Step 04</span>
+                  <h3 class="text-base font-bold text-slate-900">Track Applications</h3>
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    Log contact dates, track statuses (Applied, Follow-up, Interview, Accepted), monitor 7-day follow-up cadences, and export data as CSV anytime.
+                  </p>
+                </div>
+              </div>
+              <div class="pt-5 mt-4 border-t border-slate-100">
+                <button onclick="navigateTo('#/app?tab=tracker')" class="text-xs font-semibold text-accent-600 hover:text-accent-700 flex items-center gap-1">
+                  <span>Track Applications</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Privacy & Data Transparency Section -->
+      <section id="privacy" class="py-14 sm:py-16 border-b border-slate-200 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="sf-card p-6 sm:p-8 bg-white border border-slate-200 shadow-sm space-y-5">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-slate-900">How ScholarFlow Handles Your Data</h2>
+                <p class="text-xs text-slate-500">Transparent privacy details based on the exact codebase implementation.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs text-slate-600">
+              
+              <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+                <h4 class="font-semibold text-slate-900 flex items-center gap-1.5">
+                  <i data-lucide="hard-drive" class="w-3.5 h-3.5 text-accent-600"></i>
+                  Local Browser Storage
+                </h4>
+                <p class="leading-relaxed">
+                  Your student profile, roadmap progress, and outreach tracker entries are saved exclusively in your browser’s <code class="bg-white px-1 py-0.5 rounded border border-slate-200 text-slate-800">localStorage</code>. No application data is sent to external cloud databases.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+                <h4 class="font-semibold text-slate-900 flex items-center gap-1.5">
+                  <i data-lucide="database" class="w-3.5 h-3.5 text-accent-600"></i>
+                  Bundled Faculty Dataset
+                </h4>
+                <p class="leading-relaxed">
+                  The faculty directory contains 7,055 records compiled from institutional faculty listings across 71 premier Indian engineering institutions. Search and filtering execute 100% in-browser in JavaScript memory.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+                <h4 class="font-semibold text-slate-900 flex items-center gap-1.5">
+                  <i data-lucide="mail" class="w-3.5 h-3.5 text-accent-600"></i>
+                  Direct Mailto Launching
+                </h4>
+                <p class="leading-relaxed">
+                  Emails are drafted locally and launched directly via your system’s default mail handler (<code class="bg-white px-1 py-0.5 rounded border border-slate-200 text-slate-800">mailto:</code>) or copied to clipboard. ScholarFlow never sends emails on your behalf.
+                </p>
+              </div>
+
+              <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5">
+                <h4 class="font-semibold text-slate-900 flex items-center gap-1.5">
+                  <i data-lucide="volume-2" class="w-3.5 h-3.5 text-accent-600"></i>
+                  Native Web Speech Audio
+                </h4>
+                <p class="leading-relaxed">
+                  The 30-second elevator pitch feature uses your browser's native Web Speech Synthesis API. No audio recordings or transcripts are transmitted over the network.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Final CTA Section -->
+      <section class="py-16 sm:py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
+          <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Ready to structure your research search?
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
+            Open the workspace to explore the directory of 7,055 faculty mentors, prepare targeted outreach, and organize your applications.
+          </p>
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button onclick="navigateTo('#/app')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all shadow-md focus-visible:ring-2 focus-visible:ring-accent-500">
+              <i data-lucide="layout-dashboard" class="w-4 h-4" aria-hidden="true"></i>
+              <span>Open Workspace</span>
+            </button>
+            <button onclick="navigateTo('#/app?tab=directory')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm flex items-center justify-center gap-2 transition-colors focus-visible:ring-2 focus-visible:ring-accent-500">
+              <i data-lucide="users" class="w-4 h-4" aria-hidden="true"></i>
+              <span>Explore Faculty Directory</span>
+            </button>
+          </div>
+
+          <!-- Bottom Privacy Note -->
+          <p class="text-xs text-slate-500 pt-2 flex items-center justify-center gap-1.5 max-w-md mx-auto">
+            <i data-lucide="shield" class="w-3.5 h-3.5 text-accent-600 shrink-0" aria-hidden="true"></i>
+            <span>No sign-up or cookies. Profile and application data stay in your browser.</span>
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Landing Footer -->
+    <footer class="border-t border-slate-200 bg-slate-50 py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-slate-800">ScholarFlow</span>
+          <span>•</span>
+          <span>Academic Outreach &amp; Research Workspace</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <button onclick="navigateTo('#/app?tab=directory')" class="hover:text-slate-800 transition-colors">Directory</button>
+          <button onclick="navigateTo('#/app?tab=studio')" class="hover:text-slate-800 transition-colors">Email Studio</button>
+          <button onclick="navigateTo('#/app?tab=roadmap')" class="hover:text-slate-800 transition-colors">Roadmap</button>
+          <button onclick="navigateTo('#/app?tab=tracker')" class="hover:text-slate-800 transition-colors">Pipeline</button>
+          <a href="#/" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="text-accent-600 hover:underline">Back to Top ↑</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 2. WORKSPACE APPLICATION VIEW (Route: /app)                   -->
+  <!-- ============================================================== -->
+  <div id="view-app" class="h-screen h-[100dvh] flex overflow-hidden hidden">
+
+    <!-- VERTICAL SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="hidden lg:flex fixed lg:static inset-y-0 left-0 z-40 lg:z-auto w-64 bg-white border-r border-slate-200 flex-col shrink-0 shadow-xl lg:shadow-none transition-all duration-200">
+
+      <div class="flex flex-col h-full">
+
+        <!-- Brand Header (Navigates to Landing Home) -->
+        <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+          <a href="#/" onclick="navigateTo('#/'); return false;" class="flex items-center gap-2.5 group" title="Return to ScholarFlow Home">
+            <div class="w-8 h-8 rounded-xl bg-accent-600 flex items-center justify-center shrink-0 shadow-sm group-hover:bg-accent-700 transition-colors" aria-hidden="true">
+              <i data-lucide="compass" class="w-4 h-4 text-white"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm font-bold tracking-tight text-slate-900 group-hover:text-accent-600 transition-colors">Scholar<span class="text-accent-600">Flow</span></span>
+              </div>
+              <p class="text-[10px] text-slate-500 font-medium">← Back to Home</p>
+            </div>
+          </a>
+          <!-- Mobile Close Sidebar Button -->
+          <button onclick="toggleMobileSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors" aria-label="Close sidebar">
+            <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <!-- Dataset Stat Banner -->
+        <div class="mx-4 my-3 px-3 py-2.5 rounded-lg bg-accent-50 border border-accent-200 flex items-center justify-between text-[11px]">
+          <span class="text-slate-600 font-medium">Faculty in database</span>
+          <span class="font-mono font-bold text-accent-600" id="sidebar-total-counter">7,055</span>
+        </div>
+
+        <!-- Vertical Nav -->
+        <nav class="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto" aria-label="Main navigation">
+
+          <button onclick="switchTab('directory')" id="nav-btn-directory"
+            class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors active-nav-item"
+            aria-current="page">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="users" class="w-4 h-4" aria-hidden="true"></i>
+              <span>Faculty Directory</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white text-slate-500 border border-slate-200" id="nav-badge-professors">7,055</span>
+          </button>
+
+          <button onclick="switchTab('studio')" id="nav-btn-studio"
+            class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="mail" class="w-4 h-4" aria-hidden="true"></i>
+              <span>Email Studio</span>
+            </div>
+            <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-50 text-accent-600 border border-accent-200">Studio</span>
+          </button>
+
+          <button onclick="switchTab('roadmap')" id="nav-btn-roadmap"
+            class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="map" class="w-4 h-4" aria-hidden="true"></i>
+              <span>6-Week Roadmap</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white text-slate-500 border border-slate-200" id="nav-badge-progress">0%</span>
+          </button>
+
+          <button onclick="switchTab('tracker')" id="nav-btn-tracker"
+            class="w-full text-left px-3 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-between transition-colors text-slate-500 hover:text-slate-800 hover:bg-slate-100">
+            <div class="flex items-center gap-2.5">
+              <i data-lucide="kanban" class="w-4 h-4" aria-hidden="true"></i>
+              <span>Outreach Pipeline</span>
+            </div>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white text-slate-500 border border-slate-200" id="nav-badge-tracker">0</span>
+          </button>
+
+        </nav>
+
+        <!-- Bottom User Profile Card -->
+        <div class="p-3 border-t border-slate-200">
+          <div class="px-3 py-2.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-7 h-7 rounded-full bg-accent-100 border border-accent-200 flex items-center justify-center text-[11px] font-bold text-accent-600 shrink-0" id="user-avatar-initials" aria-hidden="true">
+                AS
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-xs font-semibold text-slate-800 truncate" id="sidebar-user-name">Aarav Sharma</p>
+                <p class="text-[11px] text-slate-500 truncate" id="sidebar-user-college">NIT Trichy</p>
+              </div>
+            </div>
+            <button onclick="switchTab('studio')" class="p-1.5 rounded-lg text-slate-400 hover:text-accent-600 hover:bg-accent-50 transition-colors" title="Edit Profile in Email Studio" aria-label="Edit student profile">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+    <!-- MAIN APPLICATION VIEWPORT -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden bg-slate-50">
+
+      <!-- Top Header -->
+      <header class="h-13 border-b border-slate-200 bg-white px-4 sm:px-6 flex items-center justify-between shrink-0" style="height:52px;">
+        <div class="flex items-center gap-3">
+          <!-- Mobile Sidebar Toggle -->
+          <button onclick="toggleMobileSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors" aria-label="Toggle navigation menu">
+            <i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i>
+          </button>
+          
+          <!-- Home button on mobile & breadcrumb -->
+          <a href="#/" onclick="navigateTo('#/'); return false;" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1 transition-colors" title="Go to landing home">
+            <i data-lucide="home" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Home</span>
+          </a>
+          <span class="text-slate-300">/</span>
+          <span class="text-xs font-semibold text-slate-700" id="header-breadcrumb">Faculty Directory</span>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs text-slate-500">
+          <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-[11px] text-slate-500">
+            <i data-lucide="lock" class="w-3 h-3 text-slate-400" aria-hidden="true"></i>
+            <span>100% Client-Side · Private</span>
+          </div>
+          <button onclick="switchTab('studio')" class="px-3 py-1.5 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold text-[11px] flex items-center gap-1.5 transition-colors">
+            <i data-lucide="send" class="w-3.5 h-3.5" aria-hidden="true"></i>
+            <span>Draft Email</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Workspace Canvas -->
+      <div id="app-main-scroll" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+        <!-- ========================================== -->
+        <!-- TAB 1: FACULTY DIRECTORY                   -->
+        <!-- ========================================== -->
+        <section id="tab-directory" class="tab-content space-y-5" aria-label="Faculty Directory">
+
+          <!-- Search & Filter Card -->
+          <div class="sf-card p-5 space-y-4 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+              <div>
+                <h1 class="text-lg font-bold text-slate-900 flex items-center gap-2 flex-wrap">
+                  Faculty Directory
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-accent-50 text-accent-600 border border-accent-200" id="dir-total-badge">
+                    7,055 professors
+                  </span>
+                </h1>
+                <p class="text-xs text-slate-500 mt-1 max-w-xl">
+                  Search 7,000+ faculty across 71 premier Indian institutions (IITs, NITs, IIITs, IISc, Central Universities). Sourced from institutional directories.
+                </p>
+              </div>
+              <button onclick="resetFilters()" class="self-start px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs font-semibold text-slate-600 hover:text-slate-900 flex items-center gap-1.5 transition-colors whitespace-nowrap shadow-sm">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                Reset Filters
+              </button>
+            </div>
+
+            <!-- Controls Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+
+              <!-- Search -->
+              <div class="sm:col-span-6 relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" aria-hidden="true">
+                  <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+                </div>
+                <label for="faculty-search-input" class="sr-only">Search faculty by name, research interest, or keyword</label>
+                <input type="text" id="faculty-search-input"
+                  placeholder="Search by name, research area, e.g. 'Graph Neural Networks', 'Robotics'…"
+                  class="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-300 rounded-lg text-xs text-slate-800 placeholder-slate-400 focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all outline-none">
+              </div>
+
+              <!-- Institution Filter -->
+              <div class="sm:col-span-3">
+                <label for="faculty-institution-filter" class="sr-only">Filter by institution</label>
+                <select id="faculty-institution-filter"
+                  class="w-full py-2.5 px-3 bg-white border border-slate-300 rounded-lg text-xs text-slate-700 focus:border-accent-500 focus:ring-2 focus:ring-accent-100 outline-none transition-all">
+                  <option value="">All Institutes (71)</option>
+                </select>
+              </div>
+
+              <!-- Department Filter -->
+              <div class="sm:col-span-3">
+                <label for="faculty-department-filter" class="sr-only">Filter by department</label>
+                <select id="faculty-department-filter"
+                  class="w-full py-2.5 px-3 bg-white border border-slate-300 rounded-lg text-xs text-slate-700 focus:border-accent-500 focus:ring-2 focus:ring-accent-100 outline-none transition-all">
+                  <option value="">All Departments</option>
+                </select>
+              </div>
+
+            </div>
+
+            <!-- Quick Topic Pills -->
+            <div class="flex flex-wrap items-center gap-1.5 text-[11px]">
+              <span class="text-slate-400 font-medium">Quick domains:</span>
+              <button onclick="setSearchTerm('Machine Learning')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">Machine Learning</button>
+              <button onclick="setSearchTerm('Computer Vision')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">Computer Vision</button>
+              <button onclick="setSearchTerm('Natural Language')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">NLP &amp; LLMs</button>
+              <button onclick="setSearchTerm('Robotics')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">Robotics &amp; Control</button>
+              <button onclick="setSearchTerm('VLSI')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">VLSI &amp; Nanoelectronics</button>
+              <button onclick="setSearchTerm('Power Systems')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">Power &amp; Energy</button>
+              <button onclick="setSearchTerm('Fluid Dynamics')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">CFD &amp; Fluid Mechanics</button>
+              <button onclick="setSearchTerm('Bioinformatics')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">Bioinformatics</button>
+              <button onclick="setSearchTerm('Cryptography')" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-accent-50 hover:text-accent-700 text-slate-600 transition-colors border border-transparent hover:border-accent-200">Cryptography &amp; Security</button>
+            </div>
+          </div>
+
+          <!-- Meta Results Bar -->
+          <div class="flex items-center justify-between text-xs text-slate-500 px-1">
+            <div id="directory-results-count" class="font-medium" role="status" aria-live="polite">Loading faculty records…</div>
+            <div class="flex items-center gap-2">
+              <label for="faculty-sort-by" class="text-slate-400">Sort by:</label>
+              <select id="faculty-sort-by" onchange="renderFacultyDirectory()"
+                class="bg-white border border-slate-200 text-slate-600 text-xs rounded-lg px-2 py-1 focus:outline-none focus:border-accent-500">
+                <option value="name">Name (A–Z)</option>
+                <option value="institution">Institution</option>
+                <option value="department">Department</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Faculty Grid -->
+          <div id="faculty-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <!-- Populated via app.js -->
+          </div>
+
+          <!-- Pagination -->
+          <div id="faculty-pagination" class="flex items-center justify-center gap-2 py-4">
+            <!-- Populated via app.js -->
+          </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 2: ACADEMIC EMAIL STUDIO               -->
+        <!-- ========================================== -->
+        <section id="tab-studio" class="tab-content hidden space-y-5" aria-label="Email Studio">
+
+          <!-- Studio Header & Mode Switcher -->
+          <div class="sf-card p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-lg font-bold text-slate-900">Academic Email Studio</h1>
+              <p class="text-xs text-slate-500 mt-1 max-w-xl">
+                Draft targeted outreach to faculty. Select a professor from the directory, fill in your project details, then choose a template or generate a smart match. All processing is done locally in your browser.
+              </p>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div class="inline-flex p-1 bg-slate-100 rounded-lg border border-slate-200 text-xs font-semibold shrink-0">
+              <button onclick="setStudioMode('template')" id="studio-mode-template-btn"
+                class="px-3.5 py-1.5 rounded-md bg-white text-slate-800 shadow-sm transition-all border border-slate-200">
+                Templates
+              </button>
+              <button onclick="setStudioMode('ai')" id="studio-mode-ai-btn"
+                class="px-3.5 py-1.5 rounded-md text-slate-500 hover:text-slate-800 transition-all flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-accent-500" aria-hidden="true"></i>
+                Smart Match
+              </button>
+            </div>
+          </div>
+
+          <!-- Studio Dual Column -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+            <!-- Left Column: Inputs (5 cols) -->
+            <div class="lg:col-span-5 space-y-4">
+
+              <!-- Target Professor Card -->
+              <div class="sf-card p-4 shadow-sm space-y-3">
+                <div class="flex items-center justify-between">
+                  <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                    <i data-lucide="user-check" class="w-3.5 h-3.5 text-accent-500" aria-hidden="true"></i>
+                    Target Professor
+                  </h2>
+                  <button onclick="switchTab('directory')" class="text-[11px] font-semibold text-accent-600 hover:underline">
+                    Browse Directory →
+                  </button>
+                </div>
+
+                <div id="studio-selected-prof-card" class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+                  <div class="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 id="target-prof-name" class="text-sm font-bold text-slate-900">Select a Professor</h3>
+                      <p id="target-prof-meta" class="text-xs text-slate-500 mt-0.5">Choose from directory or type below</p>
+                    </div>
+                    <span id="target-prof-inst-badge" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white text-slate-600 border border-slate-200 shrink-0">Institute</span>
+                  </div>
+                  <p id="target-prof-research" class="text-xs text-slate-600 leading-relaxed">
+                    <strong class="text-slate-500">Research Focus:</strong> Select from 7,055 professors in the directory
+                  </p>
+                  <div class="flex items-center gap-2 text-xs text-slate-500 font-mono pt-1">
+                    <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400 shrink-0" aria-hidden="true"></i>
+                    <span id="target-prof-email" class="text-slate-600 truncate">faculty@institute.ac.in</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Template Selector (shown in template mode) -->
+              <div id="studio-template-selector-box" class="sf-card p-4 shadow-sm space-y-3">
+                <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                  <i data-lucide="file-text" class="w-3.5 h-3.5 text-accent-500" aria-hidden="true"></i>
+                  Email Templates
+                </h2>
+                <div class="space-y-2">
+
+                  <label class="flex items-start gap-3 p-3 rounded-lg border border-accent-300 bg-accent-50 cursor-pointer transition-colors">
+                    <input type="radio" name="email_template_type" value="A" checked onchange="onTemplateChanged('A')"
+                      class="mt-0.5 text-accent-600 focus:ring-accent-500">
+                    <div>
+                      <span class="text-xs font-semibold text-slate-800">A — Targeted Research Match</span>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Direct connection to professor's lab focus, concrete project result on GitHub, specific contribution offered.</p>
+                    </div>
+                  </label>
+
+                  <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition-colors">
+                    <input type="radio" name="email_template_type" value="B" onchange="onTemplateChanged('B')"
+                      class="mt-0.5 text-accent-600 focus:ring-accent-500">
+                    <div>
+                      <span class="text-xs font-semibold text-slate-800">B — Early Learner &amp; Foundations</span>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Honest about learning stage (1st/2nd year), highlighting strong fundamentals and fast ramp-up.</p>
+                    </div>
+                  </label>
+
+                  <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition-colors">
+                    <input type="radio" name="email_template_type" value="C" onchange="onTemplateChanged('C')"
+                      class="mt-0.5 text-accent-600 focus:ring-accent-500">
+                    <div>
+                      <span class="text-xs font-semibold text-slate-800">C — Formal Lab / Coordinator Inquiry</span>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Polite formal query directed to lab coordinator or program office about official application procedures.</p>
+                    </div>
+                  </label>
+
+                  <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition-colors">
+                    <input type="radio" name="email_template_type" value="D" onchange="onTemplateChanged('D')"
+                      class="mt-0.5 text-accent-600 focus:ring-accent-500">
+                    <div>
+                      <span class="text-xs font-semibold text-slate-800">D — 7-Day Polite Follow-Up</span>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Follow-up citing a new experiment or benchmark completed since the initial outreach.</p>
+                    </div>
+                  </label>
+
+                  <label class="flex items-start gap-3 p-3 rounded-lg border border-slate-200 hover:border-slate-300 bg-white cursor-pointer transition-colors">
+                    <input type="radio" name="email_template_type" value="E" onchange="onTemplateChanged('E')"
+                      class="mt-0.5 text-accent-600 focus:ring-accent-500">
+                    <div>
+                      <span class="text-xs font-semibold text-slate-800">E — 14-Day Graceful Closeout</span>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Warm closeout asking for guidance on future formal application cycles.</p>
+                    </div>
+                  </label>
+
+                </div>
+              </div>
+
+              <!-- Student Profile & Project Inputs -->
+              <div class="sf-card p-4 shadow-sm space-y-3">
+                <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                  <i data-lucide="user" class="w-3.5 h-3.5 text-accent-500" aria-hidden="true"></i>
+                  Your Profile &amp; Project
+                </h2>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-name-input">Full Name</label>
+                    <input type="text" id="student-name-input" value="Aarav Sharma" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-inst-input">College / Institute</label>
+                    <input type="text" id="student-inst-input" value="NIT Trichy" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-year-input">Degree &amp; Year</label>
+                    <input type="text" id="student-year-input" value="3rd Year B.Tech" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-discipline-input">Discipline / Branch</label>
+                    <input type="text" id="student-discipline-input" value="Computer Science and Engineering" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-dates-input">Dates Available</label>
+                    <input type="text" id="student-dates-input" value="Dec 1, 2026 – Jan 15, 2027" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-portfolio-input">GitHub / Portfolio URL</label>
+                    <input type="text" id="student-portfolio-input" value="https://github.com/aarav-research" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+                </div>
+
+                <!-- Project Fields -->
+                <div class="pt-2 border-t border-slate-100 space-y-2.5">
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-project-title-input">Recent Project or Baseline Reproduced</label>
+                    <input type="text" id="student-project-title-input" value="Graph Representation Learning on Sparse Networks" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                  </div>
+
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-project-desc-input">Technical Findings &amp; Contributions</label>
+                    <textarea id="student-project-desc-input" rows="2" oninput="saveStudentProfile()"
+                      class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 leading-relaxed transition-all">Profiled inference latency and memory trade-offs for PyTorch Geometric message passing on citation networks.</textarea>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-tools-input">Tech Stack</label>
+                      <input type="text" id="student-tools-input" value="PyTorch, PyG, CUDA" oninput="saveStudentProfile()"
+                        class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                    </div>
+                    <div>
+                      <label class="block text-[11px] font-semibold text-slate-500 mb-1" for="student-task-input">Immediate Contribution</label>
+                      <input type="text" id="student-task-input" value="benchmarking baseline models or dataset curation" oninput="saveStudentProfile()"
+                        class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Smart Match Trigger (shown in ai mode) -->
+                <div id="ai-generate-action-box" class="pt-1 hidden">
+                  <button onclick="generateSmartDraft()" id="btn-generate-ai"
+                    class="w-full py-2.5 px-4 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-colors shadow-sm">
+                    <i data-lucide="sparkles" class="w-4 h-4" aria-hidden="true"></i>
+                    <span id="btn-generate-ai-text">Synthesize Smart Research Match</span>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Right Column: Email Preview (7 cols) -->
+            <div class="lg:col-span-7 space-y-4">
+
+              <div class="sf-card p-5 shadow-sm space-y-4 flex flex-col h-full">
+
+                <!-- Alignment mismatch warning (hidden by default) -->
+                <div id="alignment-warning-box" class="hidden p-3.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-start gap-2.5">
+                  <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0" aria-hidden="true"></i>
+                  <p id="alignment-warning-text">Heuristic check: Your project description may not closely match this professor's listed research focus. Review the email carefully before sending and consider customising your pitch to explain your interest in their work.</p>
+                </div>
+
+                <!-- Subject Line -->
+                <div class="space-y-1.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <label class="font-semibold text-slate-500 flex items-center gap-1.5" for="preview-subject-input">
+                      <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-400" aria-hidden="true"></i> Subject Line
+                    </label>
+                    <span class="text-[11px] text-slate-400 font-mono" id="preview-placeholder-status">Resolved</span>
+                  </div>
+                  <input type="text" id="preview-subject-input"
+                    class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-800 focus:bg-white focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all font-mono">
+                </div>
+
+                <!-- Rationale Card (ai mode) -->
+                <div id="gemma-rationale-box" class="hidden p-3.5 rounded-lg bg-accent-50 border border-accent-200 text-xs text-slate-700 space-y-1">
+                  <div class="flex items-center gap-1.5 font-bold text-accent-600 text-[11px]">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                    <span>Alignment Rationale</span>
+                  </div>
+                  <p id="gemma-rationale-text" class="text-slate-600 text-[11px] leading-relaxed"></p>
+                </div>
+
+                <!-- Email Body -->
+                <div class="flex-1 space-y-1.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <label class="font-semibold text-slate-500 flex items-center gap-1.5" for="preview-body-textarea">
+                      <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-400" aria-hidden="true"></i> Email Body
+                    </label>
+                    <div class="flex items-center gap-2 text-[11px] text-slate-400 font-mono">
+                      <span id="preview-word-count">135 words</span>
+                      <span>·</span>
+                      <span id="preview-word-count-badge" class="text-slate-400">target: &lt;180</span>
+                    </div>
+                  </div>
+                  <textarea id="preview-body-textarea" rows="16"
+                    class="w-full p-4 bg-slate-50 border border-slate-300 rounded-lg text-xs text-slate-700 leading-relaxed font-mono focus:bg-white focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all"></textarea>
+                </div>
+
+                <!-- Attachment Notice -->
+                <p class="text-[11px] text-slate-500 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 flex items-start gap-1.5">
+                  <i data-lucide="info" class="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" aria-hidden="true"></i>
+                  Review all drafts before sending. Emails do not include attachments automatically—attach your CV or portfolio yourself in your email client if you choose to include one.
+                </p>
+
+                <!-- Action Toolbar -->
+                <div class="pt-2 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <button onclick="launchMailtoClient()"
+                      class="px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+                      <i data-lucide="send" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                      Open in Mail Client
+                    </button>
+                    <button onclick="copyEmailToClipboard()"
+                      class="px-3.5 py-2 rounded-lg bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+                      <i data-lucide="copy" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                      Copy
+                    </button>
+                    <button onclick="saveCurrentToTracker()"
+                      class="px-3.5 py-2 rounded-lg border border-slate-300 hover:border-accent-400 hover:bg-accent-50 text-slate-600 hover:text-accent-700 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+                      <i data-lucide="plus-circle" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                      Track Outreach
+                    </button>
+                  </div>
+
+                  <button onclick="speakElevatorPitch()" id="btn-audio-pitch"
+                    class="px-3.5 py-2 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-semibold text-xs flex items-center gap-1.5 transition-colors">
+                    <i data-lucide="volume-2" class="w-3.5 h-3.5" aria-hidden="true"></i>
+                    <span id="btn-audio-pitch-text">Play 30s Audio Pitch</span>
+                  </button>
+                </div>
+
+                <!-- Audio Pitch Player -->
+                <div id="audio-player-box" class="hidden p-4 rounded-lg bg-indigo-50 border border-indigo-200 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-indigo-400" id="audio-wave-dot"></span>
+                      <span class="text-xs font-semibold text-indigo-700">Elevator Pitch (Audio Practice)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button onclick="stopElevatorPitch()" class="px-2 py-0.5 rounded text-[10px] font-mono bg-white border border-indigo-200 text-indigo-600 hover:bg-indigo-50 transition-colors">Stop</button>
+                      <span class="text-[10px] font-mono text-indigo-500 bg-white px-2 py-0.5 rounded border border-indigo-200">Browser Audio</span>
+                    </div>
+                  </div>
+                  <p id="elevator-pitch-text-display" class="text-xs text-indigo-700 italic bg-white p-3 rounded-lg border border-indigo-200 leading-relaxed"></p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 3: 6-WEEK PREPARATION ROADMAP          -->
+        <!-- ========================================== -->
+        <section id="tab-roadmap" class="tab-content hidden space-y-5" aria-label="6-Week Roadmap">
+
+          <!-- Roadmap Header -->
+          <div class="sf-card p-5 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h1 class="text-lg font-bold text-slate-900">6-Week Research Preparation Roadmap</h1>
+              <p class="text-xs text-slate-500 mt-1 max-w-xl">
+                A six-stage strategy — from narrowing your domain and reproducing baselines to publishing reports and sending targeted outreach waves. Check off tasks to track your progress.
+              </p>
+            </div>
+
+            <!-- Progress Widget -->
+            <div class="bg-white border border-slate-200 p-4 rounded-xl min-w-[220px] shrink-0">
+              <div class="flex items-center justify-between text-xs font-semibold text-slate-700 mb-2">
+                <span>Overall Progress</span>
+                <span id="roadmap-progress-percentage" class="text-accent-600 font-mono font-bold">0%</span>
+              </div>
+              <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="roadmap-progress-bar-wrapper">
+                <div id="roadmap-progress-bar" class="h-full bg-accent-500 transition-all duration-300" style="width: 0%"></div>
+              </div>
+              <p id="roadmap-tasks-summary" class="text-[11px] text-slate-400 mt-2 text-right font-mono">0 of 23 tasks completed</p>
+            </div>
+          </div>
+
+          <!-- Stages Container -->
+          <div id="roadmap-stages-container" class="space-y-4">
+            <!-- Populated via app.js -->
+          </div>
+
+        </section>
+
+        <!-- ========================================== -->
+        <!-- TAB 4: OUTREACH PIPELINE TRACKER           -->
+        <!-- ========================================== -->
+        <section id="tab-tracker" class="tab-content hidden space-y-5" aria-label="Outreach Pipeline">
+
+          <!-- Tracker Header & Metrics -->
+          <div class="sf-card p-5 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h1 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  Outreach Pipeline
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-blue-50 text-blue-600 border border-blue-200">Private Local Storage</span>
+                </h1>
+                <p class="text-xs text-slate-500 mt-1">
+                  Track every mentor contacted, follow-up due dates (7-day cadence), and interview schedules.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="exportPipelineCSV()"
+                  class="px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+                  <i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>
+                  Export CSV
+                </button>
+                <button onclick="openNewApplicationModal()"
+                  class="px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+                  <i data-lucide="plus" class="w-4 h-4" aria-hidden="true"></i>
+                  Add Application
+                </button>
+              </div>
+            </div>
+
+            <!-- Pipeline Counter Tiles -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-[11px] font-semibold text-slate-500 block">Total Tracked</span>
+                <span id="metric-total-apps" class="text-xl font-mono font-extrabold text-slate-900">0</span>
+              </div>
+              <div class="p-3 rounded-xl bg-amber-50 border border-amber-200">
+                <span class="text-[11px] font-semibold text-amber-700 block">To Contact</span>
+                <span id="metric-to-contact" class="text-xl font-mono font-extrabold text-amber-600">0</span>
+              </div>
+              <div class="p-3 rounded-xl bg-blue-50 border border-blue-200">
+                <span class="text-[11px] font-semibold text-blue-700 block">Applied</span>
+                <span id="metric-applied" class="text-xl font-mono font-extrabold text-blue-600">0</span>
+              </div>
+              <div class="p-3 rounded-xl bg-violet-50 border border-violet-200">
+                <span class="text-[11px] font-semibold text-violet-700 block">Follow-up Sent</span>
+                <span id="metric-followup" class="text-xl font-mono font-extrabold text-violet-600">0</span>
+              </div>
+              <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                <span class="text-[11px] font-semibold text-emerald-700 block">Interviews / Offers</span>
+                <span id="metric-interviews" class="text-xl font-mono font-extrabold text-emerald-600">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table Card -->
+          <div class="sf-card border border-slate-200 overflow-hidden shadow-sm">
+            <div class="px-4 py-3 border-b border-slate-200 bg-slate-50 flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <label for="tracker-status-filter" class="text-xs font-semibold text-slate-500">Filter:</label>
+                <select id="tracker-status-filter" onchange="renderApplicationsTable()"
+                  class="text-xs bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none focus:border-accent-500">
+                  <option value="All">All Statuses</option>
+                  <option value="To Contact">To Contact</option>
+                  <option value="Applied">Applied</option>
+                  <option value="Follow-up Sent">Follow-up Sent</option>
+                  <option value="Interview">Interview</option>
+                  <option value="Accepted">Accepted / Offer</option>
+                  <option value="Archived">Archived</option>
+                </select>
+              </div>
+              <div class="text-[11px] font-mono text-slate-400">
+                Storage: <span class="text-accent-600 font-bold">100% Local</span>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                    <th class="py-3 px-4 font-semibold">Professor / Institute</th>
+                    <th class="py-3 px-4 font-semibold">Research Area</th>
+                    <th class="py-3 px-4 font-semibold">Status</th>
+                    <th class="py-3 px-4 font-semibold">Sent Date</th>
+                    <th class="py-3 px-4 font-semibold">Follow-Up Due</th>
+                    <th class="py-3 px-4 text-right font-semibold">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="applications-table-body" class="divide-y divide-slate-100 text-xs">
+                  <!-- Populated via app.js -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="tracker-empty-state" class="py-16 text-center space-y-3">
+              <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 border border-slate-200 flex items-center justify-center mx-auto" aria-hidden="true">
+                <i data-lucide="inbox" class="w-5 h-5"></i>
+              </div>
+              <p class="text-sm font-semibold text-slate-700">No applications tracked yet</p>
+              <p class="text-xs text-slate-500 max-w-sm mx-auto">
+                Browse the faculty directory, open a professor's card, and click <strong>Draft Email</strong> or <strong>+ Track</strong> to add them here.
+              </p>
+              <button onclick="switchTab('directory')"
+                class="px-4 py-2 rounded-lg bg-accent-600 hover:bg-accent-700 text-white font-semibold text-xs transition-colors shadow-sm">
+                Browse Faculty Directory
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODALS                                                          -->
+  <!-- ============================================================== -->
+
+  <!-- Add Application Modal -->
+  <div id="modal-new-application" class="fixed inset-0 z-50 bg-black/40 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 id="modal-title" class="text-sm font-bold text-slate-900">Add Application to Pipeline</h3>
+        <button onclick="closeNewApplicationModal()" class="text-slate-400 hover:text-slate-700 transition-colors" aria-label="Close dialog">
+          <i data-lucide="x" class="w-4 h-4" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-500 mb-1" for="modal-app-prof-name">Professor Name</label>
+          <input type="text" id="modal-app-prof-name" placeholder="Prof. Jane Doe"
+            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-500 mb-1" for="modal-app-prof-email">Professor Email</label>
+          <input type="email" id="modal-app-prof-email" placeholder="faculty@institute.ac.in"
+            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 font-mono focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-500 mb-1" for="modal-app-inst">Institution</label>
+            <input type="text" id="modal-app-inst" placeholder="IIT Bombay"
+              class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-500 mb-1" for="modal-app-status">Status</label>
+            <select id="modal-app-status"
+              class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+              <option value="To Contact">To Contact</option>
+              <option value="Applied">Applied</option>
+              <option value="Follow-up Sent">Follow-up Sent</option>
+              <option value="Interview">Interview</option>
+              <option value="Accepted">Accepted</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-500 mb-1" for="modal-app-research">Research Field / Lab Focus</label>
+          <input type="text" id="modal-app-research" placeholder="Autonomous Systems, Robotics"
+            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-100 transition-all">
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200">
+        <button onclick="closeNewApplicationModal()"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors">Cancel</button>
+        <button onclick="submitNewApplicationModal()"
+          class="px-4 py-1.5 rounded-lg bg-accent-600 hover:bg-accent-700 text-white text-xs font-bold transition-colors shadow-sm">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-notification" role="status" aria-live="polite"
+    class="fixed bottom-5 right-5 z-50 max-w-sm bg-white border border-slate-200 text-slate-800 px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 text-xs transform transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
+    <i data-lucide="info" class="w-4 h-4 text-accent-500 shrink-0" id="toast-icon" aria-hidden="true"></i>
+    <span id="toast-message" class="font-medium">Notification message</span>
+  </div>
+
+  <!-- Data Scripts (100% Client-Side Bundled) -->
+  <script src="professors_data.js"></script>
+  <script src="roadmap_data.js"></script>
+  <!-- Application Engine -->
+  <script src="app.js"></script>
+
+</body>
+</html>

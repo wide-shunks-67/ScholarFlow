@@ -1,0 +1,41 @@
+# Environment & secrets
+.env
+*.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Scratch & extracted temporary files
+backend/wrid_bundle.js
+backend/extract_assets.py
+backend/templates_raw.txt
+backend/templates_full.txt
+backend/template_logic.txt
+backend/find_email_blocks.js
+backend/search_templates.js
+backend/show_all_cases.js
+backend/show_templates.js
+backend/dump_template_logic.js
+backend/roadmap_raw.js
+backend/roadmap_details.txt
+backend/roadmap_full.txt
+backend/roadmap_snippet.txt
+backend/weeks_found.txt
+backend/email_snippet.txt
+backend/raw_professors.csv
+backend/professors_full.csv
+backend/test_services.py
+backend/test_mongo.py
+backend/test_api_endpoints.py
+
+# System
+.DS_Store
+Thumbs.db
