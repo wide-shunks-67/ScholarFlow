@@ -1,5 +1,10 @@
 # 🎓 ScholarFlow
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-scholarflow--psi.vercel.app-6366f1?style=for-the-badge&logo=vercel&logoColor=white)](https://scholarflow-psi.vercel.app/#/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![100% Client-Side](https://img.shields.io/badge/Architecture-100%25%20Client--Side-emerald.svg?style=for-the-badge)](#-highlights)
+
+> **🚀 Live Application:** [https://scholarflow-psi.vercel.app/#/](https://scholarflow-psi.vercel.app/#/)  
 > **100% Client-Side Academic Outreach & Research Workspace**  
 > Helping students discover research mentors, prepare personalized outreach, follow a structured 6-week preparation plan, and manage applications in a private, browser-based workspace.
 
