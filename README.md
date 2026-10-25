@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![100% Client-Side](https://img.shields.io/badge/Architecture-100%25%20Client--Side-emerald.svg?style=for-the-badge)](#-highlights)
 
-> **🚀 Live Application:** [https://scholarflow-psi.vercel.app/#/](https://scholarflow-psi.vercel.app/#/)  
+> **🚀 Live Application:** [https://scholarflow-psi.vercel.app](https://scholarflow-psi.vercel.app)  
 > **100% Client-Side Academic Outreach & Research Workspace**  
 > Helping students discover research mentors, prepare personalized outreach, follow a structured 6-week preparation plan, and manage applications in a private, browser-based workspace.
 
